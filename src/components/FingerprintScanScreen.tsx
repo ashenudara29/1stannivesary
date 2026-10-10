@@ -51,8 +51,8 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
     setEarlyReleaseMessage(false);
     playHeartPop();
 
-    // 3.2 seconds duration = 3200ms, update every 40ms (~80 steps)
-    const stepIncrement = 100 / (3200 / 40);
+    // 5 seconds duration = 5000ms, update every 40ms (125 steps)
+    const stepIncrement = 100 / (5000 / 40);
 
     holdIntervalRef.current = window.setInterval(() => {
       setProgress((prev) => {

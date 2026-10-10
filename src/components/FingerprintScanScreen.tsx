@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Fingerprint, Heart, Sparkles } from 'lucide-react';
+import { Fingerprint, Heart, Sparkles, KeyRound } from 'lucide-react';
 import { BubuDudu } from './BubuDudu';
 import { triggerHeartBurst } from './FloatingHearts';
 import { useSoundEffects } from '../hooks/useSoundEffects';
@@ -18,6 +18,10 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
 
   const { playScanHum, playSuccessChord, playHeartPop } = useSoundEffects();
   const holdIntervalRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number>(0);
+  const isHoldingRef = useRef<boolean>(false);
+  const isCompletedRef = useRef<boolean>(false);
+  const TOTAL_DURATION_MS = 5000;
 
   const steps = loveStoryConfig.fingerprint.steps;
 
@@ -31,12 +35,19 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
   };
 
   const completeScan = useCallback(() => {
-    setIsCompleted(true);
-    setIsHolding(false);
+    if (isCompletedRef.current) return;
+    isCompletedRef.current = true;
+    isHoldingRef.current = false;
+
     if (holdIntervalRef.current) {
       clearInterval(holdIntervalRef.current);
       holdIntervalRef.current = null;
     }
+
+    setIsHolding(false);
+    setIsCompleted(true);
+    setProgress(100);
+
     playSuccessChord();
     triggerHeartBurst(0.5, 0.45);
 
@@ -45,49 +56,70 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
     }, 1200);
   }, [onVerified, playSuccessChord]);
 
-  const startHold = () => {
-    if (isCompleted) return;
-    setIsHolding(true);
-    setEarlyReleaseMessage(false);
-    playHeartPop();
+  const startHold = useCallback(() => {
+    if (isCompletedRef.current || isHoldingRef.current) return;
 
-    // 5 seconds duration = 5000ms, update every 40ms (125 steps)
-    const stepIncrement = 100 / (5000 / 40);
-
-    holdIntervalRef.current = window.setInterval(() => {
-      setProgress((prev) => {
-        const next = prev + stepIncrement;
-        playScanHum(next / 100);
-        if (next >= 100) {
-          completeScan();
-          return 100;
-        }
-        return next;
-      });
-    }, 40);
-  };
-
-  const cancelHold = () => {
-    if (isCompleted) return;
-    setIsHolding(false);
     if (holdIntervalRef.current) {
       clearInterval(holdIntervalRef.current);
       holdIntervalRef.current = null;
     }
 
-    if (progress > 10 && progress < 100) {
-      setEarlyReleaseMessage(true);
-      setTimeout(() => setEarlyReleaseMessage(false), 2500);
+    isHoldingRef.current = true;
+    setIsHolding(true);
+    setEarlyReleaseMessage(false);
+    playHeartPop();
+
+    startTimeRef.current = Date.now();
+
+    holdIntervalRef.current = window.setInterval(() => {
+      if (!isHoldingRef.current) {
+        if (holdIntervalRef.current) {
+          clearInterval(holdIntervalRef.current);
+          holdIntervalRef.current = null;
+        }
+        return;
+      }
+
+      const elapsed = Date.now() - startTimeRef.current;
+      const currentPct = Math.min(100, (elapsed / TOTAL_DURATION_MS) * 100);
+
+      setProgress(currentPct);
+      playScanHum(currentPct / 100);
+
+      if (currentPct >= 100) {
+        if (holdIntervalRef.current) {
+          clearInterval(holdIntervalRef.current);
+          holdIntervalRef.current = null;
+        }
+        completeScan();
+      }
+    }, 40);
+  }, [playHeartPop, playScanHum, completeScan]);
+
+  const cancelHold = useCallback(() => {
+    if (isCompletedRef.current || !isHoldingRef.current) return;
+
+    isHoldingRef.current = false;
+    setIsHolding(false);
+
+    if (holdIntervalRef.current) {
+      clearInterval(holdIntervalRef.current);
+      holdIntervalRef.current = null;
     }
 
-    // Smooth reset
-    setProgress(0);
-  };
+    setProgress((prev) => {
+      if (prev > 10 && prev < 98) {
+        setEarlyReleaseMessage(true);
+        setTimeout(() => setEarlyReleaseMessage(false), 2500);
+      }
+      return 0;
+    });
+  }, []);
 
   // Keyboard accessibility: hold Space or Enter
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.code === 'Space' || e.code === 'Enter') && !isHolding && !isCompleted) {
+      if ((e.code === 'Space' || e.code === 'Enter') && !isHoldingRef.current && !isCompletedRef.current) {
         e.preventDefault();
         startHold();
       }
@@ -106,7 +138,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
       window.removeEventListener('keyup', handleKeyUp);
       if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
     };
-  }, [isHolding, isCompleted]);
+  }, [startHold, cancelHold]);
 
   // Radius for circular SVG indicator
   const radius = 64;
@@ -182,22 +214,30 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
               </div>
             </motion.div>
 
-            {/* Center Touch / Click Target */}
-            <motion.button
+            {/* Center Touch / Click Target with Pointer Capture */}
+            <button
               type="button"
-              onMouseDown={startHold}
-              onMouseUp={cancelHold}
-              onMouseLeave={cancelHold}
-              onTouchStart={startHold}
-              onTouchEnd={cancelHold}
-              onTouchCancel={cancelHold}
-              whileTap={{ scale: 0.95 }}
+              onPointerDown={(e) => {
+                e.preventDefault();
+                try {
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                } catch {}
+                startHold();
+              }}
+              onPointerUp={(e) => {
+                try {
+                  e.currentTarget.releasePointerCapture(e.pointerId);
+                } catch {}
+                cancelHold();
+              }}
+              onPointerCancel={cancelHold}
+              style={{ touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
               aria-label="Fingerprint verification scanner"
               className={`absolute w-36 h-36 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-2xl ${
                 isCompleted
                   ? 'bg-gradient-to-tr from-pink-500 to-purple-600 shadow-pink-500/50'
                   : isHolding
-                  ? 'bg-gradient-to-tr from-purple-700 to-pink-600 shadow-purple-500/50 scale-95'
+                  ? 'bg-gradient-to-tr from-purple-700 to-pink-600 shadow-purple-500/50 ring-4 ring-pink-400/40'
                   : 'bg-gradient-to-tr from-purple-900/80 to-purple-800/80 hover:from-purple-800 hover:to-purple-700 shadow-purple-900/50'
               } border-2 border-purple-300/40`}
             >
@@ -226,7 +266,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
                   }`}
                 />
               )}
-            </motion.button>
+            </button>
           </div>
 
           {/* Status Message */}
@@ -240,7 +280,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
                   exit={{ opacity: 0 }}
                   className="text-pink-400 font-medium text-sm flex items-center gap-1.5 bg-pink-950/40 px-4 py-1.5 rounded-full border border-pink-500/30"
                 >
-                  <span>Hold a little longer, my love! 🥺💜</span>
+                  <span>Hold for 5 seconds, my love! 🥺💜</span>
                 </motion.p>
               ) : isHolding || isCompleted ? (
                 <motion.p
@@ -255,7 +295,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
                 </motion.p>
               ) : (
                 <p className="text-purple-300/70 text-xs md:text-sm">
-                  Press and hold the circle or hold [Space]
+                  Press and hold the circle for 5 seconds
                 </p>
               )}
             </AnimatePresence>
@@ -270,7 +310,23 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
             speech={isCompleted ? 'Love Verified! 💜' : 'Put your finger here! 🐾'}
           />
         </div>
+
+        {/* Fallback Direct Unlock Button */}
+        {!isCompleted && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            type="button"
+            onClick={completeScan}
+            className="mt-6 px-4 py-2 rounded-full bg-purple-900/40 hover:bg-purple-800/60 border border-purple-400/30 text-purple-200 hover:text-white text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-sm hover:scale-105 active:scale-95"
+          >
+            <KeyRound className="w-3.5 h-3.5 text-pink-300" />
+            <span>Tap here to unlock immediately ✨</span>
+          </motion.button>
+        )}
       </div>
     </div>
   );
 };
+

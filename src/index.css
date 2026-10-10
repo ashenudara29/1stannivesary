@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-purple: #8B5CF6;
+  --galaxy-deep: #2E1065;
+  --secondary-purple: #7C3AED;
+  --lavender: #C4B5FD;
+  --light-lavender: #EDE9FE;
+  --soft-pink: #FBCFE8;
+  --blush-pink: #F9A8D4;
+  --background: #F8F5FF;
+  --cream-paper: #FFF9F0;
+  --main-text: #3B245B;
+  --glowing-accent: #E9D5FF;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--galaxy-deep);
+  color: var(--main-text);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom romantic scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e0b42;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7c3aed;
+  border-radius: 9999px;
+  border: 2px solid #1e0b42;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a78bfa;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 32px 0 rgba(76, 29, 149, 0.37);
+}
+
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(196, 181, 253, 0.4);
+  box-shadow: 0 12px 30px -10px rgba(124, 58, 237, 0.15);
+}
+
+/* Parchment / Letter texture styling */
+.parchment-letter {
+  background-color: #fffaf0;
+  background-image: radial-gradient(#f3e8d2 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: 0 20px 40px rgba(46, 16, 101, 0.25), 0 0 0 1px rgba(220, 195, 150, 0.5);
+}
+
+/* Star twinkling animations */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+/* Glowing text and borders */
+.glow-purple {
+  box-shadow: 0 0 25px rgba(167, 139, 250, 0.6);
+}
+
+.glow-text-purple {
+  text-shadow: 0 0 12px rgba(196, 181, 253, 0.7);
+}
+
+/* Polaroid Photo Style */
+.polaroid-frame {
+  background: #ffffff;
+  padding: 12px 12px 24px 12px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 10px 10px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.polaroid-frame:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+}

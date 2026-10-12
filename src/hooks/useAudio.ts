@@ -105,7 +105,11 @@ export interface AudioPlayerState {
   loadTrack: (src: string | undefined, title: string) => void;
 }
 
-export function useAudio(initialSrc?: string, initialTitle: string = "Our Universe Theme"): AudioPlayerState {
+export function useAudio(
+  initialSrc?: string,
+  initialTitle: string = "Our Universe Theme",
+  autoPlay: boolean = true
+): AudioPlayerState {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [volume, setVolumeState] = useState<number>(0.65);
@@ -114,18 +118,31 @@ export function useAudio(initialSrc?: string, initialTitle: string = "Our Univer
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const trackSrcRef = useRef<string | undefined>(initialSrc);
+  const isPlayingRef = useRef<boolean>(false);
+  const volumeRef = useRef<number>(0.65);
+
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  useEffect(() => {
+    volumeRef.current = volume;
+  }, [volume]);
 
   useEffect(() => {
     const audio = new Audio();
-    audio.preload = 'metadata';
+    audio.preload = 'auto';
     audio.volume = volume;
     audio.loop = true;
+    if (trackSrcRef.current) {
+      audio.src = resolveAssetUrl(trackSrcRef.current);
+    }
 
     audio.onerror = () => {
       // Audio file not present or failed, fallback to dreamy synthesizer
-      if (isPlaying) {
+      if (isPlayingRef.current) {
         setIsFallbackSynth(true);
-        synthInstance.setVolume(volume);
+        synthInstance.setVolume(volumeRef.current);
         synthInstance.start();
       }
     };
@@ -155,11 +172,17 @@ export function useAudio(initialSrc?: string, initialTitle: string = "Our Univer
       audio.play().then(() => {
         setIsFallbackSynth(false);
         synthInstance.stop();
-      }).catch(() => {
-        // Fallback to soothing Web Audio synth
-        setIsFallbackSynth(true);
-        synthInstance.setVolume(isMuted ? 0 : volume);
-        synthInstance.start();
+      }).catch((err: unknown) => {
+        const error = err as { name?: string };
+        if (error?.name === 'NotAllowedError') {
+          // Autoplay blocked pending user gesture
+          setIsPlaying(false);
+        } else {
+          // Fallback to soothing Web Audio synth
+          setIsFallbackSynth(true);
+          synthInstance.setVolume(isMuted ? 0 : volume);
+          synthInstance.start();
+        }
       });
     } else {
       setIsFallbackSynth(true);
@@ -167,6 +190,59 @@ export function useAudio(initialSrc?: string, initialTitle: string = "Our Univer
       synthInstance.start();
     }
   }, [volume, isMuted]);
+
+  // Auto-play from the start of the 1st page
+  useEffect(() => {
+    if (!autoPlay) return;
+
+    let userInteracted = false;
+
+    const attemptPlay = () => {
+      const audio = audioRef.current;
+      if (!audio || !trackSrcRef.current) return;
+
+      const resolved = resolveAssetUrl(trackSrcRef.current);
+      if (audio.src !== resolved && !audio.src.endsWith(resolved)) {
+        audio.src = resolved;
+      }
+
+      audio.play().then(() => {
+        setIsPlaying(true);
+        setIsFallbackSynth(false);
+        synthInstance.stop();
+        removeListeners();
+      }).catch(() => {
+        // Autoplay policy prevented immediate playback; listeners will start it on first touch
+      });
+    };
+
+    const handleFirstInteraction = () => {
+      if (userInteracted) return;
+      userInteracted = true;
+      attemptPlay();
+      removeListeners();
+    };
+
+    const removeListeners = () => {
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('pointerdown', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+    };
+
+    // 1. Try immediate autoplay
+    attemptPlay();
+
+    // 2. Fallback: on mobile / autoplay-restricted browsers, play on the very first touch/key
+    window.addEventListener('click', handleFirstInteraction, { passive: true });
+    window.addEventListener('touchstart', handleFirstInteraction, { passive: true });
+    window.addEventListener('pointerdown', handleFirstInteraction, { passive: true });
+    window.addEventListener('keydown', handleFirstInteraction, { passive: true });
+
+    return () => {
+      removeListeners();
+    };
+  }, [autoPlay]);
 
   const pause = useCallback(() => {
     setIsPlaying(false);

@@ -100,10 +100,8 @@ export function App() {
       {/* Background Floating Hearts & Star Canvas */}
       <FloatingHearts intensity={currentScreen === 'passcode' ? 'medium' : 'high'} />
 
-      {/* Persistent Floating Music Player (Visible after Passcode screen) */}
-      {currentScreen !== 'passcode' && (
-        <MusicPlayer audio={audio} />
-      )}
+      {/* Persistent Floating Music Player */}
+      <MusicPlayer audio={audio} />
 
       {/* Screen Transitions */}
       <AnimatePresence mode="wait">

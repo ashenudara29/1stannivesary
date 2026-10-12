@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Heart, Gift } from 'lucide-react';
+import { Sparkles, Heart } from 'lucide-react';
 import type { MonthMilestone } from '../data/loveStory';
 import { MonthNode } from './MonthNode';
 import { BubuDudu } from './BubuDudu';
@@ -10,14 +10,13 @@ interface MemoryRoadmapProps {
   months: MonthMilestone[];
   onSelectMonth: (monthNumber: number) => void;
   onOpenReasons: () => void;
-  onOpenFinale: () => void;
+  onOpenFinale?: () => void;
 }
 
 export const MemoryRoadmap: React.FC<MemoryRoadmapProps> = ({
   months,
   onSelectMonth,
   onOpenReasons,
-  onOpenFinale,
 }) => {
   const { playHeartPop } = useSoundEffects();
 
@@ -60,19 +59,6 @@ export const MemoryRoadmap: React.FC<MemoryRoadmapProps> = ({
           >
             <Heart className="w-4 h-4 fill-pink-300 text-pink-300" />
             <span>Reasons I Love You</span>
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              playHeartPop();
-              onOpenFinale();
-            }}
-            className="px-4 py-2 rounded-2xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-bold text-xs sm:text-sm border border-pink-200/50 shadow-lg shadow-pink-600/30 flex items-center gap-1.5 cursor-pointer animate-pulse"
-          >
-            <Gift className="w-4 h-4" />
-            <span>Final Anniversary Gift 🎁</span>
           </motion.button>
         </div>
       </div>
@@ -148,30 +134,9 @@ export const MemoryRoadmap: React.FC<MemoryRoadmapProps> = ({
           })}
         </div>
 
-        {/* Roadmap Ending Celebration Pin */}
-        <div className="mt-16 text-center flex flex-col items-center">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onOpenFinale}
-            className="cursor-pointer glass-panel p-6 rounded-3xl border-2 border-pink-400/60 max-w-md shadow-2xl flex flex-col items-center"
-          >
-            <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center mb-3 shadow-[0_0_30px_#F472B6]">
-              <Gift className="w-8 h-8 text-white animate-bounce" />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-1">
-              The 365th Day & Our Forever
-            </h3>
-            <p className="text-xs text-purple-200/90 mb-4 font-light">
-              You've walked through all twelve months of our first year! Tap here for your grand anniversary surprise.
-            </p>
-            <button
-              type="button"
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-xs sm:text-sm shadow-md"
-            >
-              Open Grand Anniversary Gift 🎁
-            </button>
-          </motion.div>
+        {/* Roadmap Ending */}
+        <div className="mt-12 text-center flex flex-col items-center">
+          <BubuDudu action="hugging" size="sm" speech="Here's to our forever love! ♾️❤️" />
         </div>
       </div>
     </div>

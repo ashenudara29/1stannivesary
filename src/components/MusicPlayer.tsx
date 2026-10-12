@@ -5,10 +5,7 @@ import {
   Pause,
   Volume2,
   VolumeX,
-  Disc3,
   Music,
-  ChevronUp,
-  ChevronDown,
   Info
 } from 'lucide-react';
 import type { AudioPlayerState } from '../hooks/useAudio';
@@ -26,134 +23,201 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ audio }) => {
 
   return (
     <>
-      {/* Floating Music Player Bar / Pill */}
-      <div className="fixed bottom-2 right-2 left-2 sm:left-auto sm:right-4 sm:bottom-4 z-40 max-w-sm">
-        <motion.div
-          layout
-          className="glass-panel border border-purple-400/40 rounded-2xl sm:rounded-3xl p-2 sm:p-2.5 md:p-3 shadow-2xl backdrop-blur-xl text-white flex flex-col gap-1.5 sm:gap-2 transition-all"
-        >
-          {/* Main Mini Controller */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Rotating Vinyl Disc */}
+      {/* Backdrop to dismiss popover when tapping outside */}
+      {isExpanded && (
+        <div
+          className="fixed inset-0 z-30 bg-transparent"
+          onClick={() => setIsExpanded(false)}
+        />
+      )}
+
+      {/* Floating Small Music Button & Popover */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end">
+        {/* Expanded Mini Controls Popover */}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.9 }}
+              transition={{ duration: 0.2 }}
+              className="mb-2 w-64 glass-panel border border-purple-400/40 rounded-2xl p-3 shadow-2xl backdrop-blur-xl text-white flex flex-col gap-2.5 z-40"
+            >
+              {/* Header: Title + Close */}
+              <div className="flex items-center justify-between">
+                <div className="min-w-0 pr-2">
+                  <div className="flex items-center gap-1.5">
+                    <Music className="w-3.5 h-3.5 text-pink-400 shrink-0" />
+                    <p className="text-xs font-semibold text-white truncate">
+                      {audio.currentTrackTitle || songTitle}
+                    </p>
+                  </div>
+                  <p className="text-[10px] text-purple-200/70 truncate pl-5">
+                    {artist}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(false)}
+                  className="w-5 h-5 rounded-full hover:bg-purple-800/60 text-purple-300 hover:text-white flex items-center justify-center text-xs transition-colors"
+                  aria-label="Close settings"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Volume Slider and Mute */}
+              <div className="flex items-center gap-2 px-1 pt-1 border-t border-purple-400/20">
+                <button
+                  type="button"
+                  onClick={audio.toggleMute}
+                  className="text-purple-300 hover:text-white transition-colors"
+                  aria-label="Toggle mute"
+                >
+                  {audio.isMuted || audio.volume === 0 ? (
+                    <VolumeX className="w-4 h-4 text-pink-400" />
+                  ) : (
+                    <Volume2 className="w-4 h-4" />
+                  )}
+                </button>
+
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={audio.isMuted ? 0 : audio.volume}
+                  onChange={(e) => audio.setVolume(parseFloat(e.target.value))}
+                  className="w-full accent-pink-400 h-1.5 bg-purple-900 rounded-lg cursor-pointer"
+                />
+                <span className="text-[10px] w-7 text-right text-purple-200 font-mono">
+                  {Math.round((audio.isMuted ? 0 : audio.volume) * 100)}%
+                </span>
+              </div>
+
+              {/* Dedication info & Play toggle */}
+              <div className="flex justify-between items-center px-1 pt-1 border-t border-purple-400/20">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowDedication(true);
+                    setIsExpanded(false);
+                  }}
+                  className="text-pink-300 hover:text-pink-200 text-[11px] flex items-center gap-1 font-medium transition-colors"
+                >
+                  <Info className="w-3.5 h-3.5" />
+                  <span>Song Dedication</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={audio.togglePlay}
+                  className="px-2.5 py-1 rounded-full bg-purple-700/80 hover:bg-purple-600 active:scale-95 text-white text-[11px] font-medium flex items-center gap-1 shadow transition-all"
+                >
+                  {audio.isPlaying ? (
+                    <>
+                      <Pause className="w-3 h-3 fill-white" />
+                      <span>Pause</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-3 h-3 fill-white" />
+                      <span>Play</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Small Floating Action Button */}
+        <div className="relative">
+          {/* Animated Glow Aura when playing */}
+          {audio.isPlaying && (
+            <motion.span
+              animate={{ scale: [1, 1.25, 1], opacity: [0.6, 0.2, 0.6] }}
+              transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+              className="absolute -inset-1 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 blur-sm pointer-events-none"
+            />
+          )}
+
+          {/* Main Circular Button (Toggle Play/Pause) */}
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={audio.togglePlay}
+            className={`relative w-12 h-12 rounded-full glass-panel border ${
+              audio.isPlaying
+                ? 'border-pink-400/80 shadow-[0_0_15px_rgba(236,72,153,0.45)]'
+                : 'border-purple-400/40 shadow-lg'
+            } bg-[#1C053B]/90 backdrop-blur-xl flex items-center justify-center p-0 overflow-hidden cursor-pointer transition-all`}
+            title={audio.isPlaying ? 'Pause Music' : 'Play Music'}
+            aria-label={audio.isPlaying ? 'Pause Music' : 'Play Music'}
+          >
+            {/* Spinning Vinyl Disc */}
             <motion.div
               animate={{ rotate: audio.isPlaying ? 360 : 0 }}
-              transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
-              className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-purple-950 via-purple-900 to-black border-2 border-purple-300/40 flex items-center justify-center shrink-0 shadow-md cursor-pointer"
-              onClick={audio.togglePlay}
-              title={audio.isPlaying ? 'Pause Music' : 'Play Music'}
+              transition={{ repeat: Infinity, duration: 3.5, ease: 'linear' }}
+              className="absolute inset-1 rounded-full bg-gradient-to-tr from-purple-950 via-purple-900 to-black border border-purple-400/30 flex items-center justify-center pointer-events-none"
             >
-              <Disc3 className="w-5 h-5 sm:w-6 sm:h-6 text-pink-300" />
-              {/* Center Dot */}
-              <div className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-400" />
+              {/* Vinyl grooves */}
+              <div className="absolute inset-1 rounded-full border border-purple-400/20" />
+              <div className="absolute inset-2 rounded-full border border-purple-300/15" />
+
+              {/* Disc Center Label */}
+              <div className="w-4 h-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-inner">
+                <div className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />
+              </div>
             </motion.div>
 
-            {/* Track Info */}
-            <div
-              className="flex-1 min-w-[120px] max-w-[180px] cursor-pointer"
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              <div className="flex items-center gap-1.5">
-                <p className="text-xs font-semibold text-white truncate">
-                  {audio.currentTrackTitle || songTitle}
-                </p>
-                {audio.isFallbackSynth && (
-                  <span className="text-[9px] bg-purple-500/30 text-pink-200 px-1 py-0.2 rounded border border-purple-400/30">
-                    Lullaby
-                  </span>
-                )}
+            {/* Visual Indicator in Center */}
+            {audio.isPlaying ? (
+              <div className="relative z-10 flex items-end gap-0.5 h-3 pointer-events-none">
+                <motion.span
+                  animate={{ height: ['4px', '12px', '6px', '12px'] }}
+                  transition={{ repeat: Infinity, duration: 0.8, ease: 'easeInOut' }}
+                  className="w-0.5 bg-pink-300 rounded-full shadow-sm"
+                />
+                <motion.span
+                  animate={{ height: ['10px', '4px', '12px', '7px'] }}
+                  transition={{ repeat: Infinity, duration: 0.7, ease: 'easeInOut', delay: 0.2 }}
+                  className="w-0.5 bg-pink-100 rounded-full shadow-sm"
+                />
+                <motion.span
+                  animate={{ height: ['6px', '12px', '5px', '10px'] }}
+                  transition={{ repeat: Infinity, duration: 0.9, ease: 'easeInOut', delay: 0.4 }}
+                  className="w-0.5 bg-pink-300 rounded-full shadow-sm"
+                />
               </div>
-              <p className="text-[10px] text-purple-200/70 truncate">
-                {artist}
-              </p>
-            </div>
-
-            {/* Controls */}
-            <div className="flex items-center gap-1">
-              {/* Play / Pause */}
-              <button
-                type="button"
-                onClick={audio.togglePlay}
-                className="w-8 h-8 rounded-full bg-purple-600 hover:bg-purple-500 active:scale-95 text-white flex items-center justify-center shadow transition-colors"
-                aria-label={audio.isPlaying ? 'Pause' : 'Play'}
-              >
-                {audio.isPlaying ? (
-                  <Pause className="w-4 h-4 fill-white" />
-                ) : (
-                  <Play className="w-4 h-4 fill-white ml-0.5" />
-                )}
-              </button>
-
-              {/* Expand Toggle */}
-              <button
-                type="button"
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="w-7 h-7 rounded-full hover:bg-purple-800/40 text-purple-300 flex items-center justify-center transition-colors"
-                aria-label="Toggle music settings"
-              >
-                {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Expanded Settings Panel */}
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="pt-2 border-t border-purple-400/20 flex flex-col gap-2.5 text-xs text-purple-200"
-              >
-                {/* Volume Slider and Mute */}
-                <div className="flex items-center gap-2 px-1">
-                  <button
-                    type="button"
-                    onClick={audio.toggleMute}
-                    className="text-purple-300 hover:text-white transition-colors"
-                  >
-                    {audio.isMuted || audio.volume === 0 ? (
-                      <VolumeX className="w-4 h-4 text-pink-400" />
-                    ) : (
-                      <Volume2 className="w-4 h-4" />
-                    )}
-                  </button>
-
-                  <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.05"
-                    value={audio.isMuted ? 0 : audio.volume}
-                    onChange={(e) => audio.setVolume(parseFloat(e.target.value))}
-                    className="w-full accent-pink-400 h-1.5 bg-purple-900 rounded-lg cursor-pointer"
-                  />
-                  <span className="text-[10px] w-7 text-right">
-                    {Math.round((audio.isMuted ? 0 : audio.volume) * 100)}%
-                  </span>
-                </div>
-
-                {/* Dedication info button */}
-                <div className="flex justify-between items-center px-1">
-                  <button
-                    type="button"
-                    onClick={() => setShowDedication(true)}
-                    className="text-pink-300 hover:text-pink-200 text-[11px] flex items-center gap-1 font-medium transition-colors"
-                  >
-                    <Info className="w-3.5 h-3.5" />
-                    <span>Song Dedication</span>
-                  </button>
-
-                  {audio.isPlaying && (
-                    <div className="flex items-center gap-1 text-[11px] text-pink-400">
-                      <Music className="w-3 h-3 animate-bounce" />
-                      <span>Melody Playing</span>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
+            ) : (
+              <div className="relative z-10 w-full h-full bg-purple-950/60 backdrop-blur-[1px] flex items-center justify-center pointer-events-none">
+                <Play className="w-4 h-4 text-white fill-white ml-0.5 drop-shadow" />
+              </div>
             )}
-          </AnimatePresence>
-        </motion.div>
+          </motion.button>
+
+          {/* Mini Settings / Volume Trigger Badge */}
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.85 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
+            className="absolute -top-1 -left-1 z-20 w-5 h-5 rounded-full bg-purple-800 hover:bg-purple-700 active:scale-95 border border-purple-300/60 text-pink-200 flex items-center justify-center shadow-md transition-colors"
+            title="Music settings & volume"
+            aria-label="Music settings & volume"
+          >
+            {audio.isMuted ? (
+              <VolumeX className="w-2.5 h-2.5 text-pink-400" />
+            ) : (
+              <Volume2 className="w-2.5 h-2.5 text-pink-200" />
+            )}
+          </motion.button>
+        </div>
       </div>
 
       {/* Song Dedication Modal */}
@@ -188,7 +252,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ audio }) => {
               <button
                 type="button"
                 onClick={() => setShowDedication(false)}
-                className="px-6 py-2 rounded-full bg-white text-purple-900 font-semibold text-xs hover:bg-pink-100 transition-colors shadow"
+                className="px-6 py-2 rounded-full bg-white text-purple-900 font-semibold text-xs hover:bg-pink-100 transition-colors shadow cursor-pointer"
               >
                 Close 💜
               </button>

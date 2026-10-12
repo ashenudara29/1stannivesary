@@ -36,7 +36,7 @@ export const UniversePortal: React.FC<UniversePortalProps> = ({ onPortalEnter })
   return (
     <div
       onClick={onPortalEnter}
-      className="min-h-screen w-full relative flex items-center justify-center p-4 bg-gradient-to-b from-[#190638] via-[#2A084E] to-[#12032B] overflow-hidden cursor-pointer select-none"
+      className="h-[100dvh] max-h-[100dvh] w-full relative flex flex-col justify-center items-center p-3 sm:p-4 pb-20 sm:pb-6 bg-gradient-to-b from-[#190638] via-[#2A084E] to-[#12032B] overflow-hidden cursor-pointer select-none"
     >
       {/* Nebula clouds */}
       <motion.div
@@ -57,16 +57,16 @@ export const UniversePortal: React.FC<UniversePortalProps> = ({ onPortalEnter })
         style={{ animationDirection: 'reverse', animationDuration: '24s' }}
       />
 
-      <div className="relative z-20 flex flex-col items-center text-center max-w-lg">
+      <div className="relative z-20 flex flex-col items-center text-center max-w-lg my-auto">
         {/* Giant Glowing Heart Portal */}
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: [1, 1.12, 1], opacity: 1 }}
           transition={{ repeat: Infinity, duration: 2.4, ease: 'easeInOut' }}
-          className="relative mb-6 flex items-center justify-center"
+          className="relative mb-3 sm:mb-6 flex items-center justify-center"
         >
-          <div className="w-36 sm:w-48 h-36 sm:h-48 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-indigo-600 flex items-center justify-center shadow-[0_0_80px_rgba(192,132,252,0.8)] border-4 border-purple-200/50">
-            <Heart className="w-20 sm:w-28 h-20 sm:h-28 text-white fill-white drop-shadow-[0_0_20px_#F472B6]" />
+          <div className="w-28 sm:w-48 h-28 sm:h-48 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-indigo-600 flex items-center justify-center shadow-[0_0_80px_rgba(192,132,252,0.8)] border-4 border-purple-200/50">
+            <Heart className="w-16 sm:w-28 h-16 sm:h-28 text-white fill-white drop-shadow-[0_0_20px_#F472B6]" />
           </div>
 
           {/* Orbiting miniature icons */}
@@ -75,14 +75,14 @@ export const UniversePortal: React.FC<UniversePortalProps> = ({ onPortalEnter })
             transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
             className="absolute inset-0 pointer-events-none flex items-center justify-center"
           >
-            <Sparkles className="absolute -top-3 w-6 h-6 text-yellow-300 drop-shadow" />
-            <Orbit className="absolute -bottom-3 w-6 h-6 text-pink-300 drop-shadow" />
+            <Sparkles className="absolute -top-3 w-5 h-5 sm:w-6 sm:h-6 text-yellow-300 drop-shadow" />
+            <Orbit className="absolute -bottom-3 w-5 h-5 sm:w-6 sm:h-6 text-pink-300 drop-shadow" />
           </motion.div>
         </motion.div>
 
         {/* Mascot couple hand in hand */}
-        <div className="mb-4">
-          <BubuDudu action="holding-hands" size="md" speech="Ready for another little memory? 🌌" />
+        <div className="mb-2 sm:mb-4">
+          <BubuDudu action="holding-hands" size="sm" speech="Ready for another little memory? 🌌" />
         </div>
 
         {/* Text Reveal */}

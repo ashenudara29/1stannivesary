@@ -37,7 +37,7 @@ export const BubuDudu: React.FC<BubuDuduProps> = ({
           initial={{ opacity: 0, y: 10, scale: 0.85 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="mb-2 relative bg-white/95 text-purple-950 font-handwritten text-lg md:text-xl px-4 py-1.5 rounded-2xl shadow-lg border-2 border-purple-200/80 whitespace-nowrap z-20 pointer-events-none"
+          className="mb-1 sm:mb-2 relative bg-white/95 text-purple-950 font-handwritten text-sm sm:text-lg md:text-xl px-2.5 sm:px-4 py-0.5 sm:py-1.5 rounded-2xl shadow-lg border-2 border-purple-200/80 whitespace-nowrap z-20 pointer-events-none"
         >
           {speech}
           {/* Arrow */}

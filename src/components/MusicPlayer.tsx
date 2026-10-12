@@ -27,24 +27,24 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ audio }) => {
   return (
     <>
       {/* Floating Music Player Bar / Pill */}
-      <div className="fixed bottom-4 right-4 z-40 max-w-sm">
+      <div className="fixed bottom-2 right-2 left-2 sm:left-auto sm:right-4 sm:bottom-4 z-40 max-w-sm">
         <motion.div
           layout
-          className="glass-panel border border-purple-400/40 rounded-3xl p-2.5 sm:p-3 shadow-2xl backdrop-blur-xl text-white flex flex-col gap-2 transition-all"
+          className="glass-panel border border-purple-400/40 rounded-2xl sm:rounded-3xl p-2 sm:p-2.5 md:p-3 shadow-2xl backdrop-blur-xl text-white flex flex-col gap-1.5 sm:gap-2 transition-all"
         >
           {/* Main Mini Controller */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             {/* Rotating Vinyl Disc */}
             <motion.div
               animate={{ rotate: audio.isPlaying ? 360 : 0 }}
               transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
-              className="relative w-10 h-10 rounded-full bg-gradient-to-tr from-purple-950 via-purple-900 to-black border-2 border-purple-300/40 flex items-center justify-center shrink-0 shadow-md cursor-pointer"
+              className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-purple-950 via-purple-900 to-black border-2 border-purple-300/40 flex items-center justify-center shrink-0 shadow-md cursor-pointer"
               onClick={audio.togglePlay}
               title={audio.isPlaying ? 'Pause Music' : 'Play Music'}
             >
-              <Disc3 className="w-6 h-6 text-pink-300" />
+              <Disc3 className="w-5 h-5 sm:w-6 sm:h-6 text-pink-300" />
               {/* Center Dot */}
-              <div className="absolute w-2 h-2 rounded-full bg-pink-400" />
+              <div className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-400" />
             </motion.div>
 
             {/* Track Info */}

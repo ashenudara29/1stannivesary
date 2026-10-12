@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Sparkles, Gift, RotateCcw, Compass, Ticket, Image as ImageIcon } from 'lucide-react';
+import { Heart, Sparkles, Gift, RotateCcw, Compass, Image as ImageIcon } from 'lucide-react';
 import { BubuDudu } from './BubuDudu';
 import { triggerHeartBurst } from './FloatingHearts';
 import { useSoundEffects } from '../hooks/useSoundEffects';
@@ -178,36 +178,7 @@ export const AnniversaryFinale: React.FC<AnniversaryFinaleProps> = ({
               </div>
             </div>
 
-            {/* Real-life Romantic Date Invitation / Coupon */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="glass-panel p-6 rounded-3xl border-2 border-pink-400/40 text-left relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2 text-pink-300 font-semibold text-sm">
-                  <Ticket className="w-5 h-5 text-pink-400" />
-                  <span>{finaleData.dateCoupon.title}</span>
-                </div>
-                <span className="text-xs bg-pink-500/20 px-2.5 py-1 rounded-full text-pink-200 border border-pink-400/30">
-                  {finaleData.dateCoupon.validUntil}
-                </span>
-              </div>
 
-              <p className="text-xs text-purple-200/80 mb-3 font-light">
-                This coupon is officially issued to you. Redeemable anytime, anywhere with no expiration date!
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-purple-100 font-medium">
-                {finaleData.dateCoupon.perks.map((perk, i) => (
-                  <div key={i} className="flex items-center gap-2 bg-purple-950/50 p-2.5 rounded-xl border border-purple-400/20">
-                    <Heart className="w-3.5 h-3.5 text-pink-400 fill-pink-400 shrink-0" />
-                    <span>{perk}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
 
             {/* Final Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">

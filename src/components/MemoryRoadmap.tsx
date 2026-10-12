@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Heart, Compass, Mail, Gift } from 'lucide-react';
+import { Sparkles, Heart, Gift } from 'lucide-react';
 import type { MonthMilestone } from '../data/loveStory';
 import { MonthNode } from './MonthNode';
 import { BubuDudu } from './BubuDudu';
@@ -10,8 +10,6 @@ interface MemoryRoadmapProps {
   months: MonthMilestone[];
   onSelectMonth: (monthNumber: number) => void;
   onOpenReasons: () => void;
-  onOpenLetters: () => void;
-  onOpenFuture: () => void;
   onOpenFinale: () => void;
 }
 
@@ -19,8 +17,6 @@ export const MemoryRoadmap: React.FC<MemoryRoadmapProps> = ({
   months,
   onSelectMonth,
   onOpenReasons,
-  onOpenLetters,
-  onOpenFuture,
   onOpenFinale,
 }) => {
   const { playHeartPop } = useSoundEffects();
@@ -64,32 +60,6 @@ export const MemoryRoadmap: React.FC<MemoryRoadmapProps> = ({
           >
             <Heart className="w-4 h-4 fill-pink-300 text-pink-300" />
             <span>Reasons I Love You</span>
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              playHeartPop();
-              onOpenLetters();
-            }}
-            className="px-4 py-2 rounded-2xl bg-gradient-to-r from-purple-700/80 to-indigo-700/80 hover:from-purple-700 hover:to-indigo-700 text-white font-medium text-xs sm:text-sm border border-purple-300/40 shadow-md flex items-center gap-1.5 cursor-pointer backdrop-blur-md"
-          >
-            <Mail className="w-4 h-4 text-pink-300" />
-            <span>Open-When Letters</span>
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              playHeartPop();
-              onOpenFuture();
-            }}
-            className="px-4 py-2 rounded-2xl bg-gradient-to-r from-indigo-800/80 to-purple-800/80 hover:from-indigo-800 hover:to-purple-800 text-white font-medium text-xs sm:text-sm border border-indigo-300/40 shadow-md flex items-center gap-1.5 cursor-pointer backdrop-blur-md"
-          >
-            <Compass className="w-4 h-4 text-pink-300" />
-            <span>Future Dreams</span>
           </motion.button>
 
           <motion.button

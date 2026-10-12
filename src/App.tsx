@@ -10,8 +10,6 @@ import { UniversePortal } from './components/UniversePortal';
 import { MemoryRoadmap } from './components/MemoryRoadmap';
 import { MemoryGallery } from './components/MemoryGallery';
 import { ReasonsILoveYou } from './components/ReasonsILoveYou';
-import { OpenWhenLetters } from './components/OpenWhenLetters';
-import { FutureMemories } from './components/FutureMemories';
 import { AnniversaryFinale } from './components/AnniversaryFinale';
 import { MusicPlayer } from './components/MusicPlayer';
 import { useAudio } from './hooks/useAudio';
@@ -26,8 +24,6 @@ type AppScreen =
   | 'roadmap'
   | 'gallery'
   | 'reasons'
-  | 'open-when'
-  | 'future'
   | 'finale';
 
 export function App() {
@@ -187,8 +183,6 @@ export function App() {
               months={loveStoryConfig.months}
               onSelectMonth={handleSelectMonth}
               onOpenReasons={() => setCurrentScreen('reasons')}
-              onOpenLetters={() => setCurrentScreen('open-when')}
-              onOpenFuture={() => setCurrentScreen('future')}
               onOpenFinale={() => setCurrentScreen('finale')}
             />
           </motion.div>
@@ -222,33 +216,6 @@ export function App() {
             transition={{ duration: 0.4 }}
           >
             <ReasonsILoveYou onBack={() => setCurrentScreen('roadmap')} />
-          </motion.div>
-        )}
-
-        {currentScreen === 'open-when' && (
-          <motion.div
-            key="open-when"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <OpenWhenLetters onBack={() => setCurrentScreen('roadmap')} />
-          </motion.div>
-        )}
-
-        {currentScreen === 'future' && (
-          <motion.div
-            key="future"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <FutureMemories
-              onBack={() => setCurrentScreen('roadmap')}
-              onProceedToFinale={() => setCurrentScreen('finale')}
-            />
           </motion.div>
         )}
 

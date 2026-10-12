@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FloatingHearts } from './components/FloatingHearts';
-import { CursorTrail } from './components/CursorTrail';
 import { PasscodeScreen } from './components/PasscodeScreen';
 import { SecretEnvelope } from './components/SecretEnvelope';
 import { FingerprintScanScreen } from './components/FingerprintScanScreen';
@@ -100,9 +99,6 @@ export function App() {
     <div className="relative min-h-screen w-full bg-[#2E1065] text-[#3B245B] overflow-x-hidden selection:bg-purple-300 selection:text-purple-950 font-sans">
       {/* Background Floating Hearts & Star Canvas */}
       <FloatingHearts intensity={currentScreen === 'passcode' ? 'medium' : 'high'} />
-
-      {/* Romantic Desktop Sparkle Cursor Trail */}
-      <CursorTrail />
 
       {/* Persistent Floating Music Player (Visible after Passcode screen) */}
       {currentScreen !== 'passcode' && (

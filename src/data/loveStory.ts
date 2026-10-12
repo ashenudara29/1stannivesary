@@ -38,24 +38,6 @@ export interface MonthMilestone {
   gift: MonthGift;
   themeColor?: string;
 }
-
-export interface OpenWhenLetter {
-  id: string;
-  category: string;
-  icon: string;
-  teaser: string;
-  letter: string;
-  signoff: string;
-}
-
-export interface FutureMemory {
-  id: string;
-  title: string;
-  icon: string;
-  description: string;
-  isWish?: boolean;
-}
-
 export interface LoveStoryConfig {
   couple: {
     girlfriendNickname: string;
@@ -94,8 +76,6 @@ export interface LoveStoryConfig {
   };
   months: MonthMilestone[];
   reasonsILoveYou: string[];
-  openWhenLetters: OpenWhenLetter[];
-  futureMemories: FutureMemory[];
   finale: {
     heading: string;
     subheading: string;
@@ -103,11 +83,6 @@ export interface LoveStoryConfig {
     letterParagraphs: string[];
     favoritePhotoUrl?: string;
     favoritePhotoCaption?: string;
-    dateCoupon: {
-      title: string;
-      validUntil: string;
-      perks: string[];
-    };
   };
 }
 
@@ -502,132 +477,6 @@ export const loveStoryConfig: LoveStoryConfig = {
     "Because you love me for exactly who I am, quirks and all."
   ],
 
-  openWhenLetters: [
-    {
-      id: "miss-me",
-      category: "Open when you miss me",
-      icon: "🥺",
-      teaser: "For when you wish I was right beside you...",
-      letter: "My sweet love,\n\nIf you're reading this, it means you're missing me right now. I want you to close your eyes, take a deep breath, and remember this: even when miles or hours separate us, my heart is right there with you.\n\nEvery beat belongs to you. Look at the moon tonight — we are looking at the exact same sky. I am counting down the minutes until I can wrap my arms around you again.\n\nText me right now with a purple heart so I know you're thinking of me too. I love you endlessly.",
-      signoff: "Sending you the biggest virtual hug 🫂💜"
-    },
-    {
-      id: "feel-sad",
-      category: "Open when you feel sad",
-      icon: "🌧️",
-      teaser: "A warm blanket of words for difficult moments...",
-      letter: "Hey beautiful,\n\nI hate that you're feeling down right now. I wish I could magically take all your sadness away and trade it for pure happiness.\n\nIt is okay to not be okay. You don't have to carry the whole world on your shoulders today. Let yourself rest, drink some warm water, and remember that you are strong, you are deeply loved, and tomorrow is a brand new sunrise.\n\nI am right here in your corner, always. You never have to face anything alone.",
-      signoff: "You are my strongest warrior, baby. Love you forever."
-    },
-    {
-      id: "need-a-hug",
-      category: "Open when you need a hug",
-      icon: "🧸",
-      teaser: "A giant, cozy, warm Bubu-and-Dudu embrace...",
-      letter: "My favorite girl,\n\nConsider this an official, non-expiring coupon for a giant, bone-crushing, warm bear hug!\n\nImagine me wrapping my arms around your shoulders, tucking your head against my chest, and holding you until you feel safe and relaxed. Feel that warmth? That is all my love surrounding you right now.\n\nKeep holding on, my sweet Bubu. Real hugs are coming soon!",
-      signoff: "Tightly in my arms forever 🐻🫂"
-    },
-    {
-      id: "want-to-smile",
-      category: "Open when you want to smile",
-      icon: "✨",
-      teaser: "A quick boost of silliness and laughter...",
-      letter: "Hey cutie!\n\nDid you know that penguins propose with pebbles, sea otters hold hands while sleeping so they don't drift away, and I am completely, head-over-heels obsessed with you?\n\nRemember the time we laughed so hard our stomachs ached? Or the funny faces you make when you're concentrating? You have the most infectious, radiant smile in the universe — please show it to the world today!",
-      signoff: "Smile for me, my sunshine! 😊💜"
-    },
-    {
-      id: "difficult-day",
-      category: "Open when you are having a difficult day",
-      icon: "⚡",
-      teaser: "When everything feels overwhelming and exhausting...",
-      letter: "My brave love,\n\nSome days just test our patience to the limit. If today felt heavy, unfair, or exhausting, please take a deep breath and let it out.\n\nYou survived 100% of your worst days so far, and you will get through this one too. You are capable, intelligent, resilient, and far more wonderful than any bad day can diminish.\n\nTonight, treat yourself kindly. Take a hot shower, put on comfortable clothes, and know that I am so proud of you for trying your best.",
-      signoff: "Always proud of you, no matter what 🌟"
-    },
-    {
-      id: "remember-love",
-      category: "Open when you need to remember how much I love you",
-      icon: "💗",
-      teaser: "In case you ever doubt how deeply you are adored...",
-      letter: "My precious heart,\n\nIf you ever wonder how much you mean to me, let me remind you: you are the best thing that ever happened to my life.\n\nI love your kindness, your silly humor, your brilliant mind, your soft voice, your gentle touch, and every single quirk that makes you who you are. You don't have to earn my love or prove anything — you are loved simply for being you.\n\nMy love for you isn't temporary; it is woven into every thought, every plan, and every dream I have for the future.",
-      signoff: "More than all the stars in the night sky 🌌💜"
-    },
-    {
-      id: "feel-special",
-      category: "Open when you want to feel special",
-      icon: "👑",
-      teaser: "A reminder of just how extraordinary you are...",
-      letter: "To my Queen,\n\nYou walk into a room and make it lighter. You have an energy that brings comfort to everyone around you, and especially to me.\n\nYou are gorgeous inside and out. Out of billions of souls on this planet, you are the one my heart recognized. Never forget your worth, your grace, and the beauty you bring to this world every single day.\n\nYou are my absolute dream girl.",
-      signoff: "You are one in a universe 👑✨"
-    },
-    {
-      id: "remember-first-year",
-      category: "Open when you want to remember our first year",
-      icon: "📖",
-      teaser: "A warm stroll back through our 365 days together...",
-      letter: "My love,\n\nLook at how much we built in 365 days! Twelve months filled with dates, phone calls, laughter, lessons, milestones, and so much sweetness.\n\nWe turned an ordinary year into an extraordinary adventure. Whenever you read this, look at how far we have walked hand in hand. We are proof that real love only grows stronger and sweeter with time.\n\nHere is to year two, year three, and all the decades waiting for us!",
-      signoff: "Happy 1st Anniversary and beyond 🥂💜"
-    }
-  ],
-
-  futureMemories: [
-    {
-      id: "f1",
-      title: "Our Next Anniversary Getaway",
-      icon: "✈️",
-      description: "Booking that dream vacation where we can wake up near the ocean, watch the sunrise, and celebrate another year of loving each other.",
-      isWish: false
-    },
-    {
-      id: "f2",
-      title: "Places We Want to Visit",
-      icon: "🌸",
-      description: "Walking under blooming cherry blossoms, exploring quaint streets, and discovering cozy coffee shops across the globe together.",
-      isWish: false
-    },
-    {
-      id: "f3",
-      title: "Our Future Date Adventures",
-      icon: "🎡",
-      description: "Going to carnival ferris wheels at midnight, pottery classes, cooking extravagant dinners at home, and dancing in the kitchen.",
-      isWish: false
-    },
-    {
-      id: "f4",
-      title: "Watching Countless Sunsets",
-      icon: "🌅",
-      description: "Finding new cliffside spots, beaches, and rooftops to watch the golden sun dip below the horizon with your head resting on my shoulder.",
-      isWish: false
-    },
-    {
-      id: "f5",
-      title: "Taking More Silly Pictures",
-      icon: "📸",
-      description: "Filling an entire physical scrapbook with goofy selfies, holiday photos, candid giggles, and photobooth strips.",
-      isWish: false
-    },
-    {
-      id: "f6",
-      title: "Celebrating Little Achievements",
-      icon: "🥂",
-      description: "Being there for every promotion, every personal victory, every finished goal, cheering the loudest for each other.",
-      isWish: false
-    },
-    {
-      id: "f7",
-      title: "Building Our Dream Sanctuary",
-      icon: "🏡",
-      description: "Creating a cozy home filled with warm fairy lights, fluffy pillows, plants, books, good music, and endless love.",
-      isWish: true
-    },
-    {
-      id: "f8",
-      title: "Growing Old & Sweet Together",
-      icon: "👵👴",
-      description: "Wrinkled smiles, decades of shared jokes, still holding hands on park benches, still each other's favorite hello and sweetest kiss.",
-      isWish: true
-    }
-  ],
-
   finale: {
     heading: "365 Days of Loving You",
     subheading: "And if I could do it all again, I would still choose you.",
@@ -643,16 +492,6 @@ export const loveStoryConfig: LoveStoryConfig = {
       "I love you, my favorite person. Happy Anniversary! 🧸💗"
     ],
     favoritePhotoUrl: "/images/finale/our-favorite-memory.jpg",
-    favoritePhotoCaption: "Our most treasured memory from our first year together 💜",
-    dateCoupon: {
-      title: "VIP 1st Anniversary Romantic Date Invitation 🎟️",
-      validUntil: "Valid for Lifetime / Redeemable Anytime",
-      perks: [
-        "One all-expenses-paid dreamy dinner date at your favorite restaurant",
-        "Unlimited warm hugs and forehead kisses on demand",
-        "Dessert of your choice with zero sharing required",
-        "Late night scenic drive with your favorite playlist on repeat"
-      ]
-    }
+    favoritePhotoCaption: "Our most treasured memory from our first year together 💜"
   }
 };

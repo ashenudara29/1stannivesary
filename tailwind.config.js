@@ -22,6 +22,7 @@ export default {
       fontFamily: {
         romantic: ['"Dancing Script"', 'cursive'],
         handwritten: ['"Caveat"', 'cursive'],
+        malithi: ['"FM-Malithi"', '"Malithi Web"', '"Noto Sans Sinhala"', 'sans-serif'],
         sans: ['"Outfit"', 'sans-serif'],
       },
       animation: {

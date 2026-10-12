@@ -110,16 +110,18 @@ export const LoveLetterScreen: React.FC<LoveLetterScreenProps> = ({ onEnterUnive
               <Sparkles className="w-3.5 h-3.5" />
               <span>Our 1st Anniversary Love Letter</span>
             </div>
-            <h1 className="font-handwritten text-3xl sm:text-4xl font-bold text-purple-950">
+            <h1 className="font-malithi text-2xl sm:text-3xl font-bold text-purple-950 tracking-wide">
               {letterData.heading}
             </h1>
-            <p className="font-handwritten text-2xl text-purple-800 mt-2 font-semibold">
-              {letterData.salutation}
-            </p>
+            {letterData.salutation && (
+              <p className="font-malithi text-xl sm:text-2xl text-purple-800 mt-2 font-semibold">
+                {letterData.salutation}
+              </p>
+            )}
           </div>
 
           {/* Letter Paragraphs */}
-          <div className="font-handwritten text-xl sm:text-2xl leading-relaxed space-y-4 text-purple-950/90">
+          <div className="font-malithi text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose space-y-4 text-purple-950/90">
             {(isTypingComplete ? fullParagraphs : displayedParagraphs).map((para, idx) => (
               <p key={idx} className={idx === fullParagraphs.length - 1 ? 'font-bold text-purple-900' : ''}>
                 {para}
@@ -132,9 +134,9 @@ export const LoveLetterScreen: React.FC<LoveLetterScreenProps> = ({ onEnterUnive
           </div>
 
           {/* Signoff */}
-          <div className="mt-8 pt-4 border-t border-purple-200/60 text-right font-handwritten">
-            <p className="text-xl sm:text-2xl text-purple-800">{letterData.signoff}</p>
-            <p className="text-2xl sm:text-3xl font-bold text-purple-950 mt-1">
+          <div className="mt-8 pt-4 border-t border-purple-200/60 text-right font-malithi">
+            <p className="text-base sm:text-lg text-purple-800">{letterData.signoff}</p>
+            <p className="text-lg sm:text-xl font-bold text-purple-950 mt-1">
               {letterData.closingName}
             </p>
           </div>

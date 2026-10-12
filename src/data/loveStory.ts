@@ -130,22 +130,19 @@ export const loveStoryConfig: LoveStoryConfig = {
   },
 
   anniversaryLetter: {
-    heading: "To My Favorite Person in the Whole Universe 💜",
-    salutation: "My love,",
+    heading: "💌 මගේ චූටි මැණික් කැටේ.. ❤️🧸",
+    salutation: "",
     paragraphs: [
-      "Happy First Anniversary to us! 💜",
-      "One whole year of us, and somehow, you still give me butterflies like it's the very beginning.",
-      "Out of all the people in this world, I'm so grateful that our paths crossed and that I get to call you mine.",
-      "Thank you for every smile, every laugh, every little moment, and even the days when things weren't perfect. Every memory with you has become a little piece of my favorite story.",
-      "You have become such a special part of my life. Sometimes, even the smallest moments with you become the memories I want to keep forever.",
-      "If I could choose again, in every lifetime and every universe, I would still choose you.",
-      "This is only the beginning of our story, baby. There are so many more memories to create, places to visit, dreams to chase, and anniversaries to celebrate together.",
-      "You are my favorite hello, my safest place, and my sweetest little universe.",
-      "Thank you for being you, for being part of my life, and for making this first year so special.",
-      "Happy 1st Anniversary, my love. Here's to our forever. 🧸💗"
+      "අපි දෙන්නා ආදරේ කරන්න පටන් අරන් අදට අවුරුද්දක් නේද 💗 අපි එකතු කරගත්ත ලස්සන මතක, එකට හිනා වුණ හැටි, පුංචි පුංචි රණ්ඩු, තරහ වෙලා ආයෙත් යාළු වුණ හැටි මේ හැමදේම මට හරිම වටිනවා. ❤️",
+      "ඔයා මගේ ජීවිතේට ආවට පස්සේ තමයි මගේ ලෝකේ මෙච්චර ලස්සන වුනේ ඇත්තටම. ඔයා තමයි මගේ ජීවිතේ මට හම්බ වුණු වටිනම කෙනා, මගේ හැමදේම ඔයා. 🫶🏻💕 ඔයාගේ එක හිනාවකට, මගේ මුළු දවසම ලස්සන කරන්න පුළුවන් චූටි පැංචෝ.. ❤️🫂",
+      "මම දන්නවා අපි හැම වෙලාවෙම perfect නෑ කියලා. සමහර වෙලාවට රණ්ඩු වෙයි, තරහ වෙයි, තේරුම් ගන්න බැරි වෙයි. ඒත් මොන දේ වුණත් මට ඕනේ හැමදේකදීම ඔයා මගේ ළඟින් ඉන්නයි. 🥹❤️",
+      "මගේ පැංචියෝ, මට ආදරේ කරනවටත්, මගේ ළඟින් ඉන්නවටත්, මගේ ජීවිතේ මෙච්චර ලස්සන කරනවටත් ගොඩක් ස්තූතියි. මට පුළුවන් නම් ආයෙත් මුල ඉඳන් ජීවිතේ පටන් ගන්න, මම ආයෙත් තෝරගන්නේ ඔයාවමයි. මොකද මගේ හිත හැමදාමත් තෝරගන්නේ ඔයාව විතරයි. 💋💗",
+      "මට ඕනේ ඉස්සරහටත් ඔයා එක්ක තව ගොඩක් මතක එකතු කරන්න, ඔයාගේ හීන හැබෑ කරගන්න ඔයාට උදව් කරන්න, ඔයා දුකින් ඉන්නකොට ඔයාගේ ළඟින් ඉන්න, ඔයා සතුටින් ඉන්නකොට ඔයාත් එක්ක සතුටු වෙන්න. මොන දේ වුණත් ඔයාට ආදරේ කරන කෙනෙක් ඔයා ළඟ ඉන්නවා කියලා හැමදාම දැනෙන්න සලස්වන්නයි මට ඕනේ. 🫂💞",
+      "අපේ පළවෙනි අවුරුද්ද ඉවර වුණාට අපේ ආදර කතාව තාම පටන් ගත්තා විතරයි. තව ගොඩක් දුර අපිට යන්න තියෙනවා, එකට හීන දකින්න, ඒ හැම හීනයක්ම එකට හැබෑ කරගන්න අපිට පුළුවන් වෙන්න ඕනේ. 🥹♾️❤️",
+      "මම ඔයාට අදත් ආදරෙයි, හෙටත් ආදරෙයි, මගේ ජීවිතේ ඉතුරු හැම දවසකමත් ආදරෙයි. 🧸🎀💋"
     ],
-    signoff: "Forever yours,",
-    closingName: "Your favorite person 💜"
+    signoff: "ආදරෙයි මගේ චූටි මැණිකට කියාගන්න බැරි තරම්! ❤️🫂💌",
+    closingName: "ඔයාගේ පණ්ඩිත කොල්ලා ❤️"
   },
 
   months: [

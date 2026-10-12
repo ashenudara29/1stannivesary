@@ -1,6 +1,26 @@
+@font-face {
+  font-family: 'FM-Malithi';
+  src: url('./fonts/FM-Malithi.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Malithi Web';
+  src: url('./fonts/FM-Malithi.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-malithi {
+  font-family: 'FM-Malithi', 'Malithi Web', 'Noto Sans Sinhala', 'Noto Serif Sinhala', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
 :root {
   --primary-purple: #8B5CF6;

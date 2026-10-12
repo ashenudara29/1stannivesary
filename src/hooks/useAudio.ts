@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { resolveAssetUrl } from '../utils/assets';
 
 /**
  * Procedural romantic melody synthesizer using Web Audio API as a fail-safe
@@ -147,8 +148,9 @@ export function useAudio(initialSrc?: string, initialTitle: string = "Our Univer
     setIsPlaying(true);
     const audio = audioRef.current;
     if (audio && trackSrcRef.current) {
-      if (audio.src !== window.location.origin + trackSrcRef.current && audio.src !== trackSrcRef.current) {
-        audio.src = trackSrcRef.current;
+      const resolved = resolveAssetUrl(trackSrcRef.current);
+      if (audio.src !== resolved && !audio.src.endsWith(resolved)) {
+        audio.src = resolved;
       }
       audio.play().then(() => {
         setIsFallbackSynth(false);
@@ -207,8 +209,9 @@ export function useAudio(initialSrc?: string, initialTitle: string = "Our Univer
     trackSrcRef.current = src;
     setCurrentTrackTitle(title);
     if (isPlaying) {
-      if (audioRef.current && src) {
-        audioRef.current.src = src;
+      const resolved = src ? resolveAssetUrl(src) : undefined;
+      if (audioRef.current && resolved) {
+        audioRef.current.src = resolved;
         audioRef.current.play().then(() => {
           setIsFallbackSynth(false);
           synthInstance.stop();

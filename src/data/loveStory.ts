@@ -100,10 +100,10 @@ export const loveStoryConfig: LoveStoryConfig = {
   },
 
   music: {
-    songTitle: "Until I Found You (Our Universe Melody)",
-    artist: "Dedicated with All My Heart",
-    dedication: "To the girl who turned my everyday life into poetry. Every beat belongs to you.",
-    audioFile: "/music/our-song.mp3",
+    songTitle: "Wassak Wela 💜",
+    artist: "Our Anniversary Melody",
+    dedication: "To the love of my life. Every drop, every melody, every beat belongs to you.",
+    audioFile: "/music/wassk_wela.mp3",
   },
 
   secretEnvelope: {

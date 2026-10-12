@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import type { PhotoMemory } from '../data/loveStory';
 import { useSoundEffects } from '../hooks/useSoundEffects';
+import { resolveAssetUrl } from '../utils/assets';
 
 interface PhotoSlideshowProps {
   photos: PhotoMemory[];
@@ -109,7 +110,7 @@ export const PhotoSlideshow: React.FC<PhotoSlideshowProps> = ({ photos, onFinish
               {/* Photo Image or Romantic Placeholder */}
               {!imageError[currentPhoto?.id || ''] && currentPhoto?.url ? (
                 <img
-                  src={currentPhoto.url}
+                  src={resolveAssetUrl(currentPhoto.url)}
                   alt={currentPhoto.caption}
                   onError={() => {
                     setImageError((prev) => ({ ...prev, [currentPhoto.id]: true }));

@@ -5,6 +5,7 @@ import { BubuDudu } from './BubuDudu';
 import { triggerHeartBurst } from './FloatingHearts';
 import { useSoundEffects } from '../hooks/useSoundEffects';
 import { loveStoryConfig } from '../data/loveStory';
+import { resolveAssetUrl } from '../utils/assets';
 
 interface AnniversaryFinaleProps {
   onReplay: () => void;
@@ -154,7 +155,7 @@ export const AnniversaryFinale: React.FC<AnniversaryFinaleProps> = ({
                   <div className="aspect-[4/3] bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg overflow-hidden flex items-center justify-center border border-purple-100">
                     {!photoError && finaleData.favoritePhotoUrl ? (
                       <img
-                        src={finaleData.favoritePhotoUrl}
+                        src={resolveAssetUrl(finaleData.favoritePhotoUrl)}
                         alt="Our Favorite Memory"
                         onError={() => setPhotoError(true)}
                         className="w-full h-full object-cover"

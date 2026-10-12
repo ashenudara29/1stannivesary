@@ -90,12 +90,12 @@ export const loveStoryConfig: LoveStoryConfig = {
   couple: {
     girlfriendNickname: "My Sweetest Bubu 🧸",
     myNickname: "Your Loving Dudu 🐻",
-    anniversaryDate: "2024-10-10", // 1 year anniversary reference
+    anniversaryDate: "2024-10-13", // 1 year anniversary reference (10-13)
   },
 
   security: {
-    passcode: "1010", // EDIT THIS: Can be your anniversary date (e.g. 1010) or any 4-6 digit pin
-    hintText: "Hint: The day our magical story officially began 💜 (Default: 1010)",
+    passcode: "1013", // 4-digit secret pin
+    hintText: "Hint: The day our magical story officially began 💜 (1013)",
     errorMessage: "Oops, not quite! Try our special date again, my love 🥺💔",
   },
 

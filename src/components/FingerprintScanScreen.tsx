@@ -21,7 +21,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
   const startTimeRef = useRef<number>(0);
   const isHoldingRef = useRef<boolean>(false);
   const isCompletedRef = useRef<boolean>(false);
-  const TOTAL_DURATION_MS = 5000;
+  const TOTAL_DURATION_MS = 3000;
 
   const steps = loveStoryConfig.fingerprint.steps;
 
@@ -53,7 +53,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
 
     setTimeout(() => {
       onVerified();
-    }, 1200);
+    }, 800);
   }, [onVerified, playSuccessChord]);
 
   const startHold = useCallback(() => {
@@ -231,7 +231,13 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
                 cancelHold();
               }}
               onPointerCancel={cancelHold}
-              style={{ touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
+              onContextMenu={(e) => e.preventDefault()}
+              style={{
+                touchAction: 'none',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                WebkitTouchCallout: 'none',
+              }}
               aria-label="Fingerprint verification scanner"
               className={`absolute w-36 h-36 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-2xl ${
                 isCompleted
@@ -280,7 +286,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
                   exit={{ opacity: 0 }}
                   className="text-pink-400 font-medium text-sm flex items-center gap-1.5 bg-pink-950/40 px-4 py-1.5 rounded-full border border-pink-500/30"
                 >
-                  <span>Hold for 5 seconds, my love! 🥺💜</span>
+                  <span>Hold for 3 seconds, my love! 🥺💜</span>
                 </motion.p>
               ) : isHolding || isCompleted ? (
                 <motion.p
@@ -295,7 +301,7 @@ export const FingerprintScanScreen: React.FC<FingerprintScanScreenProps> = ({ on
                 </motion.p>
               ) : (
                 <p className="text-purple-300/70 text-xs md:text-sm">
-                  Press and hold the circle for 5 seconds
+                  Touch and hold the circle for 3 seconds
                 </p>
               )}
             </AnimatePresence>

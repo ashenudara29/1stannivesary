@@ -120,7 +120,7 @@ export const loveStoryConfig: LoveStoryConfig = {
   fingerprint: {
     heading: "One More Little Thing...",
     instruction: "Place your finger here, my love 💜",
-    subtext: "Hold it for a few seconds to unlock our memories.",
+    subtext: "Touch and hold for 3 seconds to open your letter.",
     steps: [
       "Finding your heartbeat...",
       "Connecting our memories...",

@@ -62,15 +62,10 @@ export function App() {
 
   const handleSelectMonth = (monthNumber: number) => {
     setSelectedMonthNumber(monthNumber);
-    const targetMonth = loveStoryConfig.months.find((m) => m.monthNumber === monthNumber);
-    if (targetMonth && targetMonth.musicTrack) {
-      audio.loadTrack(targetMonth.musicTrack, targetMonth.musicTitle || targetMonth.title);
-    }
     setCurrentScreen('gallery');
   };
 
   const handleCloseGallery = () => {
-    audio.loadTrack(loveStoryConfig.music.audioFile, loveStoryConfig.music.songTitle);
     setCurrentScreen('roadmap');
   };
 

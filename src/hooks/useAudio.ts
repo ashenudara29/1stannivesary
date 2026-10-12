@@ -169,6 +169,10 @@ export function useAudio(
       if (audio.src !== resolved && !audio.src.endsWith(resolved)) {
         audio.src = resolved;
       }
+      if (!audio.paused) {
+        // Audio is already actively playing: do not interrupt or restart
+        return;
+      }
       audio.play().then(() => {
         setIsFallbackSynth(false);
         synthInstance.stop();
@@ -282,19 +286,25 @@ export function useAudio(
   }, [isMuted]);
 
   const loadTrack = useCallback((src: string | undefined, title: string) => {
+    if (!src || trackSrcRef.current === src) {
+      if (title) setCurrentTrackTitle(title);
+      return;
+    }
     trackSrcRef.current = src;
     setCurrentTrackTitle(title);
     if (isPlaying) {
-      const resolved = src ? resolveAssetUrl(src) : undefined;
+      const resolved = resolveAssetUrl(src);
       if (audioRef.current && resolved) {
-        audioRef.current.src = resolved;
-        audioRef.current.play().then(() => {
-          setIsFallbackSynth(false);
-          synthInstance.stop();
-        }).catch(() => {
-          setIsFallbackSynth(true);
-          synthInstance.start();
-        });
+        if (audioRef.current.src !== resolved && !audioRef.current.src.endsWith(resolved)) {
+          audioRef.current.src = resolved;
+          audioRef.current.play().then(() => {
+            setIsFallbackSynth(false);
+            synthInstance.stop();
+          }).catch(() => {
+            setIsFallbackSynth(true);
+            synthInstance.start();
+          });
+        }
       } else {
         setIsFallbackSynth(true);
         synthInstance.start();
